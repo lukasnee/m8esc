@@ -5,7 +5,6 @@
             "includePath": [
                 "${workspaceFolder}/**"
             ],
-            "defines": ["STM32H7", "USE_HAL_DRIVER", "STM32H750xx"],
             "compilerPath": "/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc",
             "cStandard": "c11",
             "cppStandard": "gnu++17",

@@ -157,7 +157,7 @@ set(PLATFORM_INDEPENDENT_SOURCES
     ../../source/font.cpp
     ../../source/slip.c
     ../../source/periph/UartCallbacks.cpp
-    ../../source/periph/Uart1.cpp
+    ../../source/periph/Uart4.cpp
     ../../source/periph/SpiCallbacks.cpp
     ../../source/periph/Spi1.cpp
     ../../source/periph/UsbCdc.cpp
