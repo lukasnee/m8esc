@@ -1,2 +1,12 @@
-add_subdirectory(STM32F411)
+
+if(PLATFORM STREQUAL "STM32H750")
 add_subdirectory(STM32H750)
+elseif(PLATFORM STREQUAL "STM32F411")
+add_subdirectory(STM32F411)
+else()
+  if(NOT PLATFORM)
+    message(FATAL_ERROR "PLATFORM not set")
+  else()
+    message(FATAL_ERROR "Unknown PLATFORM: ${PLATFORM}")
+  endif()
+endif()

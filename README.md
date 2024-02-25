@@ -115,20 +115,65 @@ The project was originally kickstarted in WSL Ubuntu.
 4. Build using the project tool:
 
     ```bash
-    python3 tools/m8ec.py -b
+    python3 tools/m8ec.py -b -p <PLATFORM>
     ```
+
+    > Replace `<PLATFORM>` with `STM32F411` or `STM32H750`. By default, `STM32H750` is used.
 
 5. Build debug version:
 
     ```bash
-    python3 tools/m8ec.py -bd
+    python3 tools/m8ec.py -bd -p <PLATFORM>
     ```
 
 > `python3 tools/m8ec.py -h` for more options.
 
 # Flashing the Built Firmware
 
-## WSL or Linux Ubuntu
+## Platform STM32H750 (DevEBox)
+
+On STM32H750, the actual m8ec firmware runs from external QSPI flash memory.
+This requires a bootloader to be flashed to the target MCU first.
+And the flashing process is a bit more complicated.
+
+### Windows
+
+1. Install [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html).
+
+2. Test if the installation contains the `STM32_Programmer_CLI` tool.
+
+    ```powershell
+    & "C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer\bin\STM32_Programmer_CLI.exe" --version
+    ```
+
+3. For convenience, add the STM32CubeProgrammer installation directory to the system PATH.
+
+    ```powershell
+    $env:Path += ";C:\Program Files\STMicroelectronics\STM32Cube\STM32CubeProgrammer\bin"
+    STM32_Programmer_CLI.exe --version
+    ```
+
+4. Flash bootloader to the target MCU (required only once).
+
+    ```powershell
+    STM32_Programmer_CLI.exe -c port=swd -w platform/STM32H750/loaders/W25Q64_STM32H750VB-DevEBox.bootloader.hex -rst
+    ```
+
+5. Flash the firmware to the target MCU.
+
+    ```powershell
+    STM32_Programmer_CLI.exe --extload platform/STM32H750/loaders/W25Q64_STM32H750VB-DevEBox.stldr -c port=swd -w .build/platform/STM32H750/STM32H750.hex -rst
+    ```
+
+    It is possible to build and flash the firmware with a one-liner.
+
+    ```bash
+    python3 tools/m8ec.py --wsl -b && STM32_Programmer_CLI.exe --extload platform/STM32H750/loaders/W25Q64_STM32H750VB-DevEBox.stldr -c port=swd -w .build/platform/STM32H750/STM32H750.hex -rst
+    ```
+
+## Platform STM32F411 (Black Pill)
+
+### WSL or Linux Ubuntu
 
 1. [WSL ONLY] [Install the USBIPD-Win project](https://learn.microsoft.com/en-us/windows/wsl/connect-usb#install-the-usbipd-win-project).
 
@@ -146,20 +191,20 @@ The project was originally kickstarted in WSL Ubuntu.
     WSL:
 
     ```bash
-    sudo python3 tools/m8ec.py --wsl -f
+    sudo python3 tools/m8ec.py --wsl -f -p <PLATFORM>
     ```
 
     Linux Ubuntu:
 
     ```bash
-    python3 tools/m8ec.py -f
+    python3 tools/m8ec.py -f -p <PLATFORM>
     ```
 
 # Debugging
 
-## WSL or Linux Ubuntu
+## Serial (printf)
 
-# Serial
+### WSL or Linux Ubuntu
 
 1. Install `minicom`.
 
@@ -170,10 +215,12 @@ The project was originally kickstarted in WSL Ubuntu.
 2. Open a terminal using the project tool.
 
     ```bash
-    sudo python3 tools/m8ec.py --serial
+    sudo python3 tools/m8ec.py --serial --wsl
     ```
 
-# OpenOCD + VS Code + Cortex-Debug
+## OpenOCD + VS Code + Cortex-Debug
+
+### Platform STM32F411 (Black Pill)
 
 1. Install openOCD.
 
@@ -201,6 +248,10 @@ The project was originally kickstarted in WSL Ubuntu.
     > When flashing the debug version, the m8ec.py tool will finish by starting openOCD. You can stop it with `Ctrl+C`.
 
 5. In VS Code, press `F5` or open the Debug tab and click the green arrow to start debugging.
+
+### Platform STM32H750 (DevEBox)
+
+Because the firmware runs from external QSPI flash memory, debugging is tricky. TBD...
 
 # SEGGER SystemView + ST-Link as J-Link
 
