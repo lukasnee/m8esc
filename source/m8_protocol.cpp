@@ -11,19 +11,20 @@
 // Copyright 2021 Jonne Kokkonen
 // Released under the MIT licence, https://opensource.org/licenses/MIT
 
-#include "m8ec/m8ec.h"
-#include "m8ec/m8_protocol.hpp"
+#include "m8ec/m8ec.hpp"
+
 #include "m8ec/KeysThread.hpp"
 #include "m8ec/display.hpp"
-#include "m8ec/m8ec.hpp"
+#include "m8ec/m8_protocol.hpp"
 #include "m8ec/periph/UsbCdc.hpp"
 #include "m8ec/slip.h"
 
 #include "usb_host.h" // TODO decouple
 
+#include "SEGGER_SYSVIEW.h"
+
 #include <cstdio>
 #include <cstring>
-#include "SEGGER_SYSVIEW.h"
 
 namespace m8ec::m8_protocol {
 
@@ -211,8 +212,7 @@ bool handle_cmd(uint8_t *data, uint32_t size) {
     else if (cmd_id == cmd::DrawRectangle::cmd_id && cmd::DrawRectangle::validate_size(payload_size)) {
         const auto &rectangle = reinterpret_cast<const cmd::DrawRectangle *>(payload_data)->rectangle;
         if (m8ec::Config::debug_m8_protocol) {
-            LOG("DrawRectangle: x:%u,y:%u,w:%u,h:%u\n", rectangle.pos.x, rectangle.pos.y, rectangle.size.w,
-                   rectangle.size.h);
+            LOG("DrawRectangle: x:%u,y:%u,w:%u,h:%u\n", rectangle.pos.x, rectangle.pos.y, rectangle.size.w, rectangle.size.h);
         }
         display::draw_rectangle(rectangle);
     }
@@ -222,7 +222,7 @@ bool handle_cmd(uint8_t *data, uint32_t size) {
         static bool system_info_already_printed = false;
         if (!system_info_already_printed) {
             LOG("System Info: device type: %s, firmware version %d.%d.%d\n", device_type[system_info.hw_type],
-                   system_info.version.major, system_info.version.minor, system_info.version.patch);
+                system_info.version.major, system_info.version.minor, system_info.version.patch);
             system_info_already_printed = true;
         }
         display::set_large_mode(system_info.font_mode == SystemInfo::FontMode::large);
