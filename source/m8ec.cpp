@@ -50,6 +50,8 @@ static bool init_hw_periphs() {
         FONAS_PANIC();
         return false;
     }
+    LOGD("USB CDC OK\n");
+
     return true;
 }
 
@@ -74,6 +76,8 @@ static bool init_apps() {
         FONAS_PANIC();
         return false;
     }
+    LOGD("m8_protocol OK\n");
+
     return true;
 }
 

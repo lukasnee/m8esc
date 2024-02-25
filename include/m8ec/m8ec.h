@@ -17,10 +17,12 @@ extern "C"
 
     void m8ec_launch();
 
-#if DEBUG
 #define LOG(...) printf(__VA_ARGS__)
+
+#if DEBUG
+#define LOGD(...) printf(__VA_ARGS__)
 #else
-#define LOG(...)
+#define LOGD(...)
 #endif
 
 #ifdef __cplusplus
