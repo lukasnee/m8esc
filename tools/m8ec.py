@@ -4,7 +4,7 @@ import subprocess
 import re
 import time
 import glob
-
+import os
 
 def sys_cmd(cmd):
     print(' '.join(cmd))
@@ -108,8 +108,10 @@ if args.serial:
     if not serial_dev:
         print(f"Error: serial device {args.serial_name} not found")
         sys.exit(1)
+    if not os.path.exists(".tmp"):
+        os.makedirs(".tmp")
     sys_cmd(["minicom", "--baudrate", "921600",
-            "-D", serial_dev, "-C", "serial.log"])
+            "-D", serial_dev, "-C", ".tmp/serial.log"])
     sys.exit(0)
 
 if args.clean:

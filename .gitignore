@@ -2,3 +2,4 @@ platform/*/build/
 .build/
 .mxproject
 platform/Makefile
+.tmp/
