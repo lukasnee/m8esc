@@ -1622,7 +1622,7 @@ error :
   * @param  Size amount of data to be sent
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_SPI_Transmit_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, uint16_t Size)
+HAL_StatusTypeDef HAL_SPI_Transmit_DMA(SPI_HandleTypeDef *hspi, const uint8_t *pData, uint16_t Size)
 {
   HAL_StatusTypeDef errorcode = HAL_OK;
 
@@ -1845,7 +1845,7 @@ error:
   * @param  Size amount of data to be sent
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_SPI_TransmitReceive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pTxData, uint8_t *pRxData,
+HAL_StatusTypeDef HAL_SPI_TransmitReceive_DMA(SPI_HandleTypeDef *hspi, const uint8_t *pTxData, uint8_t *pRxData,
                                               uint16_t Size)
 {
   uint32_t             tmp_mode;
