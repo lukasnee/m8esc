@@ -57,3 +57,11 @@ extern "C" _ssize_t _write_r(struct _reent *r, int file, const void *ptr, size_t
     return len;
 }
 #endif // SEGGER_SYSVIEW
+
+extern "C" void _close(void) {}
+extern "C" void _lseek(void) {}
+extern "C" void _read(void) {}
+extern "C" void _fstat(void) {}
+extern "C" void _isatty(void) {}
+extern "C" void _getpid(void) {}
+extern "C" void _kill(void) {}
