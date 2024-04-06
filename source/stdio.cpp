@@ -15,8 +15,8 @@
 #endif
 
 #ifdef SEGGER_SYSVIEW
-#include <reent.h>  // required for _write_r
 #include "SEGGER_RTT.h"
+#include <reent.h> // required for _write_r
 struct _reent;
 #endif // SEGGER_SYSVIEW
 
