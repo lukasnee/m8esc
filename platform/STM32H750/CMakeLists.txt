@@ -120,13 +120,13 @@ set(PLATFORM_SPECIFIC_LINKER_OPTIONS
 if(SEGGER_SYSVIEW)
   set(PLATFORM_SPECIFIC_INCLUDES
       ${PLATFORM_SPECIFIC_INCLUDES}
-      ../../extern/SystemView_Src_V352a/Sample/FreeRTOSV10)
+      SYSVIEW)
   set(PLATFORM_SPECIFIC_SOURCES
       ${PLATFORM_SPECIFIC_SOURCES}
       ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_ASM_ARMv7M.S
       # ../../extern/SystemView_Src_V352a/SEGGER/Syscalls/SEGGER_RTT_Syscalls_GCC.c implemention customized in source/stdio.cpp
-      ../../extern/SystemView_Src_V352a/Sample/FreeRTOSV10/SEGGER_SYSVIEW_FreeRTOS.c
-      ../../extern/SystemView_Src_V352a/Sample/FreeRTOSV10/Config/Cortex-M/SEGGER_SYSVIEW_Config_FreeRTOS.c)
+      SYSVIEW/SEGGER_SYSVIEW_FreeRTOS.c
+      SYSVIEW/Config/Cortex-M/SEGGER_SYSVIEW_Config_FreeRTOS.c)
   set(PLATFORM_SPECIFIC_DEFINES
       ${PLATFORM_SPECIFIC_DEFINES}
       -DSEGGER_SYSVIEW)
