@@ -219,7 +219,8 @@ set(PLATFORM_INDEPENDENT_LINKER_OPTIONS
     -static
     -Wl,--gc-sections
     -Wl,--cref
-    -Wl,--print-memory-usage)
+    -Wl,--print-memory-usage
+    -Wl,--no-warn-rwx-segment)
 
 # ##############################################################################
 # Firmware Target
