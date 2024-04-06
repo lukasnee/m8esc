@@ -181,7 +181,7 @@ endif()
 set(PLATFORM_INDEPENDENT_DEFINES -DCPP_FREERTOS_NO_EXCEPTIONS
                                  -DCPP_FREERTOS_NO_CPP_STRINGS -DFONAS)
 
-set(PLATFORM_INDEPENDENT_COMPILE_OPTIONS
+set(PLATFORM_INDEPENDENT_OPTIONS
     -fstack-usage
     -Wall
     -Wextra
@@ -238,7 +238,7 @@ target_include_directories(
   ${PROJECT_NAME} PRIVATE ${PLATFORM_INDEPENDENT_INCLUDES}
                           ${PLATFORM_SPECIFIC_INCLUDES})
 
-target_compile_options(${PROJECT_NAME} PRIVATE ${PLATFORM_INDEPENDENT_COMPILE_OPTIONS}
+target_compile_options(${PROJECT_NAME} PRIVATE ${PLATFORM_INDEPENDENT_OPTIONS}
                                                ${PLATFORM_SPECIFIC_OPTIONS})
 
 target_link_options(

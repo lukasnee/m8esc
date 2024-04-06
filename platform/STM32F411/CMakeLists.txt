@@ -29,9 +29,6 @@ set(PLATFORM_SPECIFIC_INCLUDES_STM32F4xx
     Middlewares/ST/STM32_USB_Host_Library/Core/Inc
     Middlewares/ST/STM32_USB_Host_Library/Class/AUDIO/Inc
     Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc
-    Middlewares/ST/STM32_USB_Host_Library/Class/HID/Inc
-    Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc
-    Middlewares/ST/STM32_USB_Host_Library/Class/MTP/Inc
     Drivers/CMSIS/Device/ST/STM32F4xx/Include
     Drivers/CMSIS/Include
     ../../extern/ILI9341-STM32-HAL
@@ -66,6 +63,7 @@ set(PLATFORM_SPECIFIC_SOURCES_STM32F4xx
     Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c
     Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c
     Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s.c
+    Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c
     Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.c
     Core/Src/system_stm32f4xx.c
     Middlewares/Third_Party/FreeRTOS/Source/croutine.c
@@ -84,16 +82,6 @@ set(PLATFORM_SPECIFIC_SOURCES_STM32F4xx
     Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c
     Middlewares/ST/STM32_USB_Host_Library/Class/AUDIO/Src/usbh_audio.c
     Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Src/usbh_cdc.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_keybd.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_mouse.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_parser.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_bot.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_scsi.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/MTP/Src/usbh_mtp.c
-    Middlewares/ST/STM32_USB_Host_Library/Class/MTP/Src/usbh_mtp_ptp.c
-    Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c
     ../../extern/ILI9341-STM32-HAL/ILI9341/ili9341_font.c
     ../../extern/ILI9341-STM32-HAL/ILI9341/ili9341_gfx.c
     ../../extern/ILI9341-STM32-HAL/ILI9341/ili9341.c
@@ -123,7 +111,8 @@ set(PLATFORM_SPECIFIC_LINKER_OPTIONS
 
 if(SEGGER_SYSVIEW)
   set(PLATFORM_SPECIFIC_INCLUDES
-      ${PLATFORM_SPECIFIC_INCLUDES} SYSVIEW)
+      ${PLATFORM_SPECIFIC_INCLUDES}
+      SYSVIEW)
   set(PLATFORM_SPECIFIC_SOURCES
       ${PLATFORM_SPECIFIC_SOURCES}
       ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_ASM_ARMv7M.S
@@ -190,6 +179,7 @@ set(PLATFORM_INDEPENDENT_OPTIONS
     -Wextra
     -fdata-sections
     -ffunction-sections
+    # -flto
     # -fno-use-cxa-atexit -fno-threadsafe-statics -fno-rtti
     -fno-exceptions # big change in code size and performace
     # -c -x assembler-with-cpp For good debug experience, Arm recommends -O1
@@ -214,6 +204,9 @@ set(PLATFORM_INDEPENDENT_LINKER_OPTIONS
     -lm
     -lstdc++
     -lsupc++
+    -fdata-sections
+    -ffunction-sections
+    # -flto
     -Wl,--end-group
     --specs=nosys.specs
     -static

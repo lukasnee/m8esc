@@ -25,9 +25,6 @@
 #include "usbh_core.h"
 #include "usbh_audio.h"
 #include "usbh_cdc.h"
-#include "usbh_msc.h"
-#include "usbh_hid.h"
-#include "usbh_mtp.h"
 
 /* USER CODE BEGIN Includes */
 
