@@ -353,6 +353,8 @@ void SEGGER_SYSVIEW_Print                         (const char* s);
 void SEGGER_SYSVIEW_Warn                          (const char* s);
 void SEGGER_SYSVIEW_Error                         (const char* s);
 
+void SEGGER_SYSVIEW_PrintData                     (const void* data, unsigned int len);
+
 /*********************************************************************
 *
 *       Run-time configuration functions

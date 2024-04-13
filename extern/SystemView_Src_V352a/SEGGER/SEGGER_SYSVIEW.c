@@ -3379,6 +3379,21 @@ void SEGGER_SYSVIEW_Print(const char* s) {
   RECORD_END();
 }
 
+#define MIN(x, y) ((x) < (y) ? (x) : (y))
+
+void SEGGER_SYSVIEW_PrintData(const void *data, unsigned int len) {
+  U8 *pPayload;
+  U8 *pPayloadStart;
+  RECORD_START(SEGGER_SYSVIEW_INFO_SIZE + 2 * SEGGER_SYSVIEW_QUANTA_U32 + SEGGER_SYSVIEW_MAX_STRING_LEN);
+  //
+  pPayload = _EncodeStr(pPayloadStart, data, MIN(len, SEGGER_SYSVIEW_MAX_STRING_LEN));
+  ENCODE_U32(pPayload, SEGGER_SYSVIEW_LOG);
+  ENCODE_U32(pPayload, 0);
+  _SendPacket(pPayloadStart, pPayload, SYSVIEW_EVTID_PRINT_FORMATTED);
+  RECORD_END();
+}
+#undef MIN
+
 /*********************************************************************
 *
 *       SEGGER_SYSVIEW_Warn()

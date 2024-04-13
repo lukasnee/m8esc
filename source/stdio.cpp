@@ -15,7 +15,7 @@
 #endif
 
 #ifdef SEGGER_SYSVIEW
-#include "SEGGER_RTT.h"
+#include "SEGGER_SYSVIEW.h"
 #include <reent.h> // required for _write_r
 struct _reent;
 #endif // SEGGER_SYSVIEW
@@ -29,7 +29,7 @@ struct _reent;
  */
 extern "C" int _write(int fd, char *ptr, int len) {
 #ifdef SEGGER_SYSVIEW
-    SEGGER_RTT_Write(0, ptr, len);
+    SEGGER_SYSVIEW_PrintData(ptr, len);
     return len;
 #else
     // return 0;
@@ -53,7 +53,7 @@ extern "C" int _write(int fd, char *ptr, int len) {
 extern "C" _ssize_t _write_r(struct _reent *r, int file, const void *ptr, size_t len) {
     (void)file; /* Not used, avoid warning */
     (void)r;    /* Not used, avoid warning */
-    SEGGER_RTT_Write(0, ptr, len);
+    SEGGER_SYSVIEW_PrintData(ptr, len);
     return len;
 }
 #endif // SEGGER_SYSVIEW
