@@ -15,6 +15,9 @@ extern "C"
 {
 #endif
 
+#include <stdint.h>
+#include <stdio.h>
+
     void m8ec_launch();
 
 #define LOG(...) printf(__VA_ARGS__)
