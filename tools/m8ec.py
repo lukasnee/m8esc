@@ -6,6 +6,7 @@ import time
 import glob
 import os
 
+
 def sys_cmd(cmd):
     print(' '.join(cmd))
     try:
@@ -80,7 +81,8 @@ parser.add_argument("-b", "--build", help="build project", action="store_true")
 parser.add_argument("-d", "--debug", help="enable debug", action="store_true")
 parser.add_argument("-f", "--flash", help="flash project", action="store_true")
 parser.add_argument("-r", "--reset", help="reset board", action="store_true")
-parser.add_argument("-p", "--platform", help="platform", choices=["STM32H750", "STM32F411"], default="STM32H750")
+parser.add_argument("-p", "--platform", help="platform",
+                    choices=["STM32H750", "STM32F411"], default="STM32H750")
 parser.add_argument("--wsl", help="enable WSL USB access", action="store_true")
 parser.add_argument("--usbipd", help="path to usbipd.exe",
                     default=r"/mnt/c/Program Files/usbipd-win/usbipd.exe")
