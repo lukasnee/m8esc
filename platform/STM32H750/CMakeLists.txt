@@ -1,6 +1,7 @@
 project(STM32H750)
 
 option(SEGGER_SYSVIEW "Enable SEGGER SystemView" OFF)
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "SEGGER SystemView: ${SEGGER_SYSVIEW}")
 
 enable_language(CXX C ASM)
