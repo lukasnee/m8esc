@@ -39,6 +39,11 @@ def usbipd_get_device_details(device_name):
     usbipd_list_stdout = subprocess.check_output([args.usbipd, "list"])
     usb_dev = re.search(USBIPD_LIST_CONNECTED_REGEX +
                         device_name, usbipd_list_stdout.decode("utf-8"))
+    if not usb_dev:
+        print(f"Error: USB device '{device_name}' not found")
+        print("```usbipd_list_stdout\n",
+              usbipd_list_stdout.decode("utf-8"), "\n```")
+        sys.exit(1)
     print(
         f'"{device_name}" USB device detected:'
         f'bus {usb_dev["bus"]}, '
@@ -106,9 +111,14 @@ if args.serial:
     except FileNotFoundError:
         print("Error: minicom not found")
         sys.exit(1)
-    serial_dev = glob.glob(f"/dev/serial/by-id/usb-*{args.serial_name}*")[0]
+    try:
+        glob_str = f"/dev/serial/by-id/usb-*{args.serial_name}*"
+        serial_dev = glob.glob(glob_str)[0]
+    except IndexError:
+        print(f"Error: no serial device found with `{glob_str}` pattern")
+        sys.exit(1)
     if not serial_dev:
-        print(f"Error: serial device {args.serial_name} not found")
+        print(f"Error: no serial device found with `{args.serial_name}` name")
         sys.exit(1)
     if not os.path.exists(".tmp"):
         os.makedirs(".tmp")
