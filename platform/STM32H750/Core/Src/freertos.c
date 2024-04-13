@@ -54,12 +54,12 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+/* Definitions for startupTask */
+osThreadId_t startupTaskHandle;
+const osThreadAttr_t startupTask_attributes = {
+  .name = "startup",
+  .stack_size = 4 * 1024,
+  .priority = (osPriority_t) osPriorityRealtime,
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -67,7 +67,7 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void *argument);
+void startupTask(void *argument);
 
 extern void MX_USB_HOST_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -99,8 +99,8 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* creation of startupTask */
+  startupTaskHandle = osThreadNew(startupTask, NULL, &startupTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -112,14 +112,14 @@ void MX_FREERTOS_Init(void) {
 
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_StartupTask */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the startupTask thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_StartupTask */
+void startupTask(void *arg)
 {
 #ifdef SEGGER_SYSVIEW
   SEGGER_SYSVIEW_Start();
@@ -130,7 +130,7 @@ void StartDefaultTask(void *argument)
   m8ec_launch();
 //  static uint16_t audio_out_buffer[256];
 //  HAL_I2S_Transmit_DMA(&hi2s2, audio_out_buffer, 256);
-  osThreadTerminate(defaultTaskHandle);
+  osThreadTerminate(startupTaskHandle);
   /* USER CODE END 5 */
 }
 
