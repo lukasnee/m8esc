@@ -7,3 +7,6 @@
 [submodule "extern/fonas"]
 	path = extern/fonas
 	url = https://github.com/lukasnee/fonas
+[submodule "extern/ucprof"]
+	path = extern/ucprof
+	url = https://github.com/lukasnee/ucprof.git
