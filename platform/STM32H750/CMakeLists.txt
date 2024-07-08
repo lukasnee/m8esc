@@ -37,11 +37,12 @@ set(PLATFORM_SPECIFIC_INCLUDES_STM32H7xx
 
 set(PLATFORM_SPECIFIC_SOURCES_STM32H7xx
     startup_stm32h750xx.s
+    Core/Src/system_stm32h7xx.c
+    Core/Src/main.c
     Core/Src/dma.c
     Core/Src/freertos.c
     Core/Src/gpio.c
     Core/Src/i2s.c
-    Core/Src/main.c
     Core/Src/spi.c
     Core/Src/usart.c
     Core/Src/stm32h7xx_it.c
@@ -74,7 +75,6 @@ set(PLATFORM_SPECIFIC_SOURCES_STM32H7xx
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
-    Core/Src/system_stm32h7xx.c
     Middlewares/Third_Party/FreeRTOS/Source/croutine.c
     Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
     Middlewares/Third_Party/FreeRTOS/Source/list.c
