@@ -7,7 +7,6 @@
 #include "usbh_cdc.h"
 
 #include <algorithm>
-#include "SEGGER_SYSVIEW.h"
 
 extern USBH_HandleTypeDef hUsbHostFS; // TODO decouple
 
@@ -24,9 +23,7 @@ bool UsbCdc::ready() const { return this->initialized && m8ec_virtual_com_ready(
 
 std::uint8_t UsbCdc::read() {
     std::uint8_t byte = 0;
-    // SEGGER_SYSVIEW_MarkStart(1);
     this->rx_stream_buffer.receive(&byte, sizeof(byte), portMAX_DELAY);
-    // SEGGER_SYSVIEW_MarkStop(1);
     return byte;
 }
 

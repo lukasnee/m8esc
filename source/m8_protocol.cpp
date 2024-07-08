@@ -21,8 +21,6 @@
 
 #include "usb_host.h" // TODO decouple
 
-#include "SEGGER_SYSVIEW.h"
-
 #include <cstdio>
 #include <cstring>
 
@@ -128,9 +126,7 @@ private:
                 first_run = false;
             }
             std::uint8_t buffer[Config::usbcdc_to_slip_buffer_size];
-            // SEGGER_SYSVIEW_MarkStart(0);
             const auto bytes_read = m8ec::periph::UsbCdc::get_instance().read(buffer, sizeof(buffer));
-            // SEGGER_SYSVIEW_Mark(0);
             // if(bytes_read == 0) {
             //     Thread::Delay(1);
             //     continue;
@@ -146,7 +142,6 @@ private:
                     }
                 }
             }
-            // SEGGER_SYSVIEW_MarkStop(0);
         }
     }
 };
