@@ -149,9 +149,9 @@
 
 #if (USBH_DEBUG_LEVEL > 2U)
 #define  USBH_DbgLog(...)   do { \
-                            LOG("USBH|D: ") ; \
-                            LOG(__VA_ARGS__); \
-                            LOG("\n"); \
+                            LOGD("USBH|D: ") ; \
+                            LOGD(__VA_ARGS__); \
+                            LOGD("\n"); \
 } while (0)
 #else
 #define USBH_DbgLog(...) do {} while (0)
@@ -159,9 +159,9 @@
 
 #if (USBH_DEBUG_LEVEL > 3U)
 #define  USBH_TrcLog(...)   do { \
-                            LOG("USBH|T: ") ; \
-                            LOG(__VA_ARGS__); \
-                            LOG("\n"); \
+                            LOGD("USBH|T: ") ; \
+                            LOGD(__VA_ARGS__); \
+                            LOGD("\n"); \
 } while (0)
 #else
 #define USBH_TrcLog(...) do {} while (0)
