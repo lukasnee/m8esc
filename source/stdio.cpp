@@ -28,15 +28,13 @@ struct _reent;
  * @brief Standard output redirection to the screen
  */
 extern "C" int _write(int fd, char *ptr, int len) {
-#ifdef SEGGER_SYSVIEW
-    SEGGER_SYSVIEW_PrintData(ptr, len);
-    return len;
-#else
-    // return 0;
     if ((fd != STDOUT_FILENO) && (fd != STDERR_FILENO)) {
         errno = EBADF;
         return -1;
     }
+#ifdef SEGGER_SYSVIEW
+    SEGGER_SYSVIEW_PrintData(ptr, len);
+#else // #ifdef SEGGER_SYSVIEW
 #if defined(STM32H750xx)
     using SerialDebug = m8ec::periph::Uart4;
 #elif defined(STM32F411xE)
@@ -45,18 +43,9 @@ extern "C" int _write(int fd, char *ptr, int len) {
     if (!SerialDebug::get_instance().write(reinterpret_cast<std::uint8_t *>(ptr), len)) {
         FONAS_PANIC();
     }
-    return len;
-#endif
-}
-
-#ifdef SEGGER_SYSVIEW
-extern "C" _ssize_t _write_r(struct _reent *r, int file, const void *ptr, size_t len) {
-    (void)file; /* Not used, avoid warning */
-    (void)r;    /* Not used, avoid warning */
-    SEGGER_SYSVIEW_PrintData(ptr, len);
+#endif // #ifdef SEGGER_SYSVIEW
     return len;
 }
-#endif // SEGGER_SYSVIEW
 
 extern "C" void _close(void) {}
 extern "C" void _lseek(void) {}
