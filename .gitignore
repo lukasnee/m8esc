@@ -3,3 +3,5 @@ platform/*/build/
 .mxproject
 platform/Makefile
 .tmp/
+ucprof_*.json
+ucprof.dat
