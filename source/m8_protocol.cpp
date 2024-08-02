@@ -117,9 +117,14 @@ private:
         while (true) {
             if (first_run || !periph::UsbCdc::get_instance().ready()) {
                 while (!periph::UsbCdc::get_instance().ready()) {
-                    display::draw_string("waiting for USB virtual COM\n");
-                    LOG("waiting for USB virtual COM\n");
-                    fonas::delay_ms(100);
+                    static const char loadingChars[] = {'|', '/', '-', '\\'};
+                    static uint8_t loadingCharIndex = 0;
+                    char msg_buff[64];
+                    snprintf(msg_buff, sizeof(msg_buff), "waiting for USB virtual COM %c\n", loadingChars[loadingCharIndex]);
+                    display::draw_string(msg_buff);
+                    LOG(msg_buff);
+                    loadingCharIndex = (loadingCharIndex + 1) % sizeof(loadingChars);
+                    fonas::delay_ms(250);
                 }
                 enable_display();
                 reset_display();
