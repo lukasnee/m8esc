@@ -98,7 +98,7 @@
 #if (USBH_USE_OS == 1)
   #include "cmsis_os.h"
   #define USBH_PROCESS_PRIO          1
-  #define USBH_PROCESS_STACK_SIZE    ((uint16_t)3 * 1024)
+  #define USBH_PROCESS_STACK_SIZE    ((uint16_t)4 * 1024)
 #endif /* (USBH_USE_OS == 1) */
 
 /**
