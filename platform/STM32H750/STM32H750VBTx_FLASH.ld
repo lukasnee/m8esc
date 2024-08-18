@@ -177,11 +177,6 @@ SECTIONS
     . = ALIGN(8);
   } >RAM_D1
 
-  .dma_buffer (NOLOAD) :
-  {
-    *(.dma_buffer)
-  } >RAM_D2
-
   /* Remove information from the standard libraries */
   /DISCARD/ :
   {
