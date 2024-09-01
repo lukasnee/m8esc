@@ -132,7 +132,9 @@ The project was originally kickstarted in WSL Ubuntu.
 
 ## Platform STM32H750 (DevEBox)
 
-On STM32H750, the actual m8ec firmware runs from external QSPI flash memory.
+On STM32H750, the  m8ec firmware is stored on the external QSPI flash memory. The firmware is loaded by the bootloader to RAM and executed from there.
+
+from external QSPI flash memory.
 This requires a bootloader to be flashed to the target MCU first.
 And the flashing process is a bit more complicated.
 

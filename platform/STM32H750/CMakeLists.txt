@@ -103,7 +103,7 @@ set(PLATFORM_SPECIFIC_OPTIONS_STM32H7xx -mcpu=cortex-m7 -mthumb
                                         -mfpu=fpv5-d16 -mfloat-abi=hard)
 
 set(PLATFORM_SPECIFIC_LINKER_OPTIONS_STM32H7xx
-    -T${CMAKE_CURRENT_LIST_DIR}/STM32H750VBTx_FLASH.ld -mcpu=cortex-m7 -mthumb
+    -T${CMAKE_CURRENT_LIST_DIR}/STM32H750VBTx_RAM.ld -mcpu=cortex-m7 -mthumb
     -mfpu=fpv5-d16 -mfloat-abi=hard -Wl,-Map=${PROJECT_NAME}.map)
 
 # ##############################################################################
