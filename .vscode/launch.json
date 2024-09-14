@@ -7,17 +7,22 @@
         {
             "name": "m8ec",
             "type": "cortex-debug",
-            "request": "launch",
-            "servertype": "external",
-            "gdbTarget": "localhost:3333",
-            // "preLaunchTask": "Build m8ec debug and flash",
+            "request": "attach",
+            "servertype": "openocd",
+            "configFiles": [
+                "../../openocd.cfg"
+            ],
             "rtos": "FreeRTOS",
             "cwd": "${workspaceRoot}/platform/STM32H750",
-            "executable": "${workspaceRoot}/.build/platform/STM32H750/STM32H750",
+            "symbolFiles": [
+                "${workspaceRoot}/.build/platform/STM32H750/STM32H750",
+                "${workspaceRoot}/../../1/W25Q64_STM32H750VB-DevEBox/build/bootloader_int_ram.elf",
+            ],
             "svdFile": "${workspaceRoot}/tools/STM32H753.svd",
             "interface": "swd",
-            "numberOfProcessors": 1,
-            "breakAfterReset": false,
+            "breakAfterReset": true,
+            // "runToEntryPoint": "main"
+            // "showDevDebugOutput": "raw",
         },
     ]
 }
