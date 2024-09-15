@@ -164,13 +164,13 @@ And the flashing process is a bit more complicated.
 5. Flash the firmware to the target MCU.
 
     ```powershell
-    STM32_Programmer_CLI.exe --extload platform/STM32H750/loaders/W25Q64_STM32H750VB-DevEBox.stldr -c port=swd -w .build/platform/STM32H750/STM32H750.hex -rst
+    STM32_Programmer_CLI.exe --extload platform/STM32H750/loaders/W25Q64_STM32H750VB-DevEBox.stldr -c port=swd -w .build/platform/STM32H750/STM32H750.bin 0x90000000 -rst
     ```
 
     It is possible to build and flash the firmware with a one-liner.
 
     ```bash
-    python3 tools/m8ec.py --wsl -b && STM32_Programmer_CLI.exe --extload platform/STM32H750/loaders/W25Q64_STM32H750VB-DevEBox.stldr -c port=swd -w .build/platform/STM32H750/STM32H750.hex -rst
+    python3 tools/m8ec.py --wsl -b && STM32_Programmer_CLI.exe --extload platform/STM32H750/loaders/W25Q64_STM32H750VB-DevEBox.stldr -c port=swd -w .build/platform/STM32H750/STM32H750.bin 0x90000000 -rst
     ```
 
 ## Platform STM32F411 (Black Pill)
