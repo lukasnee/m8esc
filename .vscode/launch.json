@@ -5,18 +5,38 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "m8ec",
+            "name": "m8ec (jlink)",
             "type": "cortex-debug",
             "request": "attach",
             "servertype": "openocd",
             "configFiles": [
-                "../../openocd.cfg"
+                "../../openocd.jlink.cfg"
             ],
             "rtos": "FreeRTOS",
             "cwd": "${workspaceRoot}/platform/STM32H750",
             "symbolFiles": [
                 "${workspaceRoot}/.build/platform/STM32H750/STM32H750",
-                "${workspaceRoot}/../../1/W25Q64_STM32H750VB-DevEBox/build/bootloader_int_ram.elf",
+                "${workspaceRoot}/extern/W25Q64_STM32H750VB-DevEBox/.build/bl_iram/bl_iram.elf",
+            ],
+            "svdFile": "${workspaceRoot}/tools/STM32H753.svd",
+            "interface": "swd",
+            "breakAfterReset": true,
+            // "runToEntryPoint": "main"
+            // "showDevDebugOutput": "raw",
+        },
+        {
+            "name": "m8ec (stlink)",
+            "type": "cortex-debug",
+            "request": "attach",
+            "servertype": "openocd",
+            "configFiles": [
+                "../../openocd.stlink.cfg"
+            ],
+            "rtos": "FreeRTOS",
+            "cwd": "${workspaceRoot}/platform/STM32H750",
+            "symbolFiles": [
+                "${workspaceRoot}/.build/platform/STM32H750/STM32H750",
+                "${workspaceRoot}/extern/W25Q64_STM32H750VB-DevEBox/.build/bl_iram/bl_iram.elf",
             ],
             "svdFile": "${workspaceRoot}/tools/STM32H753.svd",
             "interface": "swd",

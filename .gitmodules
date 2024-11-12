@@ -10,3 +10,6 @@
 [submodule "extern/ucprof"]
 	path = extern/ucprof
 	url = https://github.com/lukasnee/ucprof.git
+[submodule "extern/W25Q64_STM32H750VB-DevEBox"]
+	path = extern/W25Q64_STM32H750VB-DevEBox
+	url = https://github.com/lukasnee/W25Q64_STM32H750VB-DevEBox.git

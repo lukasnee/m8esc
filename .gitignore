@@ -5,3 +5,5 @@ platform/Makefile
 .tmp/
 ucprof_*.json
 ucprof.dat
+comm.log
+serial.log
