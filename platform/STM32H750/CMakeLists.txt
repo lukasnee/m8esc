@@ -151,7 +151,6 @@ set(PLATFORM_INDEPENDENT_SOURCES
     ../../extern/fonas/src/EventDrivenWriter.cpp
     ../../extern/fonas/src/EventDrivenSpi.cpp
     ../../extern/fonas/src/StreamBuffer.cpp
-    ../../extern/ucprof/ucprof.c
     ../../source/stdio.cpp
     ../../source/m8ec.cpp
     ../../source/m8_protocol.cpp
@@ -169,27 +168,31 @@ set(PLATFORM_INDEPENDENT_INCLUDES
     ../../extern/freertos-addons/c++/Source/include
     ../../extern/fonas/include
     ../../include
-    ../../extern/ucprof/include
 )
 
 if(SEGGER_SYSVIEW)
   set(PLATFORM_INDEPENDENT_INCLUDES
       ${PLATFORM_INDEPENDENT_INCLUDES}
       ../../extern/SystemView_Src_V352a/Config
-      ../../extern/SystemView_Src_V352a/SEGGER)
+      ../../extern/SystemView_Src_V352a/SEGGER
+      ../../extern/ucprof/include)
   set(PLATFORM_INDEPENDENT_SOURCES
       ${PLATFORM_INDEPENDENT_SOURCES}
       ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT.c
       ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_printf.c
-      ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_SYSVIEW.c)
+      ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_SYSVIEW.c
+      ../../extern/ucprof/ucprof.c)
+  set(PLATFORM_SPECIFIC_OPTIONS
+      ${PLATFORM_SPECIFIC_OPTIONS}
+      -finstrument-functions
+      -finstrument-functions-exclude-file-list=Core/Src/system_stm32h7xx,Core/Src/main,Core/Src/dma,Core/Src/freertos,Core/Src/gpio,Core/Src/i2s,Core/Src/spi,Core/Src/usart,Core/Src/stm32h7xx_it,Core/Src/stm32h7xx_hal_msp,Core/Src/stm32h7xx_hal_timebase_tim,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hcd,Drivers/CMSIS/Include/cmsis_gcc.h,Drivers/CMSIS/Include/core_cm7.h,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2s,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2s_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex,Middlewares/Third_Party/FreeRTOS/Source/croutine,Middlewares/Third_Party/FreeRTOS/Source/event_groups,Middlewares/Third_Party/FreeRTOS/Source/list,Middlewares/Third_Party/FreeRTOS/Source/queue,Middlewares/Third_Party/FreeRTOS/Source/stream_buffer,Middlewares/Third_Party/FreeRTOS/Source/tasks,Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2,Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4,Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_ASM_ARMv7M.S,source/stdio,SYSVIEW/SEGGER_SYSVIEW_FreeRTOS,SYSVIEW/Config/Cortex-M/SEGGER_SYSVIEW_Config_FreeRTOS,extern/freertos-addons/c++/Source/cmutex,extern/freertos-addons/c++/Source/cqueue,extern/freertos-addons/c++/Source/csemaphore,extern/freertos-addons/c++/Source/cthread,source/periph/UartCallbacks,source/periph/SpiCallbacks,source/KeysThread,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_printf,extern/SystemView_Src_V352a/SEGGER/SEGGER_SYSVIEW,extern/SystemView_Src_V352a/SEGGER/SYSVIEW,extern/ucprof/ucprof.c
+    )
 endif()
 
 set(PLATFORM_INDEPENDENT_DEFINES -DCPP_FREERTOS_NO_EXCEPTIONS
                                  -DCPP_FREERTOS_NO_CPP_STRINGS -DFONAS)
 
 set(PLATFORM_INDEPENDENT_OPTIONS
-    -finstrument-functions
-    -finstrument-functions-exclude-file-list=Core/Src/system_stm32h7xx,Core/Src/main,Core/Src/dma,Core/Src/freertos,Core/Src/gpio,Core/Src/i2s,Core/Src/spi,Core/Src/usart,Core/Src/stm32h7xx_it,Core/Src/stm32h7xx_hal_msp,Core/Src/stm32h7xx_hal_timebase_tim,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hcd,Drivers/CMSIS/Include/cmsis_gcc.h,Drivers/CMSIS/Include/core_cm7.h,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2s,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2s_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex,Middlewares/Third_Party/FreeRTOS/Source/croutine,Middlewares/Third_Party/FreeRTOS/Source/event_groups,Middlewares/Third_Party/FreeRTOS/Source/list,Middlewares/Third_Party/FreeRTOS/Source/queue,Middlewares/Third_Party/FreeRTOS/Source/stream_buffer,Middlewares/Third_Party/FreeRTOS/Source/tasks,Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2,Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4,Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_ASM_ARMv7M.S,source/stdio,SYSVIEW/SEGGER_SYSVIEW_FreeRTOS,SYSVIEW/Config/Cortex-M/SEGGER_SYSVIEW_Config_FreeRTOS,extern/freertos-addons/c++/Source/cmutex,extern/freertos-addons/c++/Source/cqueue,extern/freertos-addons/c++/Source/csemaphore,extern/freertos-addons/c++/Source/cthread,source/periph/UartCallbacks,source/periph/SpiCallbacks,source/KeysThread,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_printf,extern/SystemView_Src_V352a/SEGGER/SEGGER_SYSVIEW,extern/SystemView_Src_V352a/SEGGER/SYSVIEW,extern/ucprof/ucprof.c
     -fstack-usage
     -Wall
     -Wextra
@@ -198,18 +201,24 @@ set(PLATFORM_INDEPENDENT_OPTIONS
     # -flto
     # -fno-use-cxa-atexit -fno-threadsafe-statics -fno-rtti
     -fno-exceptions # big change in code size and performace
-    # -c -x assembler-with-cpp For good debug experience, Arm recommends -O1
+    # -c -x assembler-with-cpp
+
+    # https://developer.arm.com/documentation/100748/0623/Writing-Optimized-Code/Optimizing-for-code-size-or-performance
+
+    $<$<CONFIG:Debug>:-Og -DDEBUG>
+
+    # For good debug experience, Arm recommends using -O1 optimization level
     # rather than -O0. When using -O1, the compiler performs certain
     # optimizations, but the structure of the generated code is still close to
-    # the source code. -g0     no debug information -g1 minimal debug
-    # information -g default debug information -g3 maximal debug information
-    $<$<CONFIG:Debug>:-ggdb
-    -Og
-    -DDEBUG>
-    # -O3 compiler tries to reduce code size and execution time, O3 is highest
-    # standard optimization. -Os Optimize for size. -Os enables all -O2
-    # optimizations except those that often increase code size
-    $<$<CONFIG:Release>:-O1>)
+    # the source code.
+    $<$<CONFIG:Release>:-O1>
+
+    # -g0 # no debug information
+    # -g1 # minimal debug information
+    -g # default debug information
+    # -g3 # maximal debug information
+    -gdwarf-2 # DWARF version 2 debugging information
+    )
 
 set(PLATFORM_INDEPENDENT_LINKER_OPTIONS
     -fsingle-precision-constant
