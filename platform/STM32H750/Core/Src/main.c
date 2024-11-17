@@ -118,19 +118,6 @@ int main(void)
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  GPIO_InitStruct.Pin = GPIO_PIN_1;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  /**
-   * @brief The A1 GPIO corresponds ton an onboard LED. The QSPI external flash bootloader
-   * (platform/STM32H750/loaders/W25Q64_STM32H750VB-DevEBox.bootloader.*) resets the pin (led on) to indicate that the memory
-   * mapped QSPI flash is working. The bootloader the performs a jump to this application. Reset the pin (led off) to indicate
-   * that the application is running.
-   */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
   /* USER CODE END 2 */
 
   /* Init scheduler */
