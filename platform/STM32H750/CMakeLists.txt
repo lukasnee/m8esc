@@ -33,7 +33,8 @@ set(PLATFORM_SPECIFIC_INCLUDES_STM32H7xx
     Drivers/CMSIS/Device/ST/STM32H7xx/Include
     Drivers/CMSIS/Include
     ../../extern/ILI9341-STM32-HAL
-    include)
+    include
+)
 
 set(PLATFORM_SPECIFIC_SOURCES_STM32H7xx
     startup_stm32h750xx.s
@@ -94,17 +95,21 @@ set(PLATFORM_SPECIFIC_SOURCES_STM32H7xx
     ../../extern/ILI9341-STM32-HAL/ILI9341/ili9341_font.c
     ../../extern/ILI9341-STM32-HAL/ILI9341/ili9341_gfx.c
     ../../extern/ILI9341-STM32-HAL/ILI9341/ili9341.c
-    src/Keys.cpp)
+    src/Keys.cpp
+)
 
 set(PLATFORM_SPECIFIC_DEFINES_STM32H7xx -DUSE_HAL_DRIVER -DSTM32H750xx
-                                        -DSTM32H7)
+                                        -DSTM32H7
+)
 
-set(PLATFORM_SPECIFIC_OPTIONS_STM32H7xx -mcpu=cortex-m7 -mthumb
-                                        -mfpu=fpv5-d16 -mfloat-abi=hard)
+set(PLATFORM_SPECIFIC_OPTIONS_STM32H7xx -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16
+                                        -mfloat-abi=hard
+)
 
 set(PLATFORM_SPECIFIC_LINKER_OPTIONS_STM32H7xx
     -T${CMAKE_CURRENT_LIST_DIR}/STM32H750VBTx_RAM.ld -mcpu=cortex-m7 -mthumb
-    -mfpu=fpv5-d16 -mfloat-abi=hard -Wl,-Map=${PROJECT_NAME}.map)
+    -mfpu=fpv5-d16 -mfloat-abi=hard -Wl,-Map=STM32H750.map
+)
 
 # ##############################################################################
 # Platform Selection
@@ -116,7 +121,8 @@ set(PLATFORM_SPECIFIC_SOURCES ${PLATFORM_SPECIFIC_SOURCES_STM32H7xx})
 set(PLATFORM_SPECIFIC_DEFINES ${PLATFORM_SPECIFIC_DEFINES_STM32H7xx})
 set(PLATFORM_SPECIFIC_OPTIONS ${PLATFORM_SPECIFIC_OPTIONS_STM32H7xx})
 set(PLATFORM_SPECIFIC_LINKER_OPTIONS
-    ${PLATFORM_SPECIFIC_LINKER_OPTIONS_STM32H7xx})
+    ${PLATFORM_SPECIFIC_LINKER_OPTIONS_STM32H7xx}
+)
 
 if(SEGGER_SYSVIEW)
   set(PLATFORM_SPECIFIC_INCLUDES
@@ -162,11 +168,11 @@ set(PLATFORM_INDEPENDENT_SOURCES
     ../../source/periph/SpiCallbacks.cpp
     ../../source/periph/Spi1.cpp
     ../../source/periph/UsbCdc.cpp
-    ../../source/KeysThread.cpp)
+    ../../source/KeysThread.cpp
+)
 
 set(PLATFORM_INDEPENDENT_INCLUDES
-    ../../extern/freertos-addons/c++/Source/include
-    ../../extern/fonas/include
+    ../../extern/freertos-addons/c++/Source/include ../../extern/fonas/include
     ../../include
 )
 
@@ -190,7 +196,8 @@ if(SEGGER_SYSVIEW)
 endif()
 
 set(PLATFORM_INDEPENDENT_DEFINES -DCPP_FREERTOS_NO_EXCEPTIONS
-                                 -DCPP_FREERTOS_NO_CPP_STRINGS -DFONAS)
+                                 -DCPP_FREERTOS_NO_CPP_STRINGS -DFONAS
+)
 
 set(PLATFORM_INDEPENDENT_OPTIONS
     -fstack-usage
@@ -198,27 +205,22 @@ set(PLATFORM_INDEPENDENT_OPTIONS
     -Wextra
     -fdata-sections
     -ffunction-sections
-    # -flto
-    # -fno-use-cxa-atexit -fno-threadsafe-statics -fno-rtti
+    # -flto -fno-use-cxa-atexit -fno-threadsafe-statics -fno-rtti
     -fno-exceptions # big change in code size and performace
     # -c -x assembler-with-cpp
-
     # https://developer.arm.com/documentation/100748/0623/Writing-Optimized-Code/Optimizing-for-code-size-or-performance
-
-    $<$<CONFIG:Debug>:-Og -DDEBUG>
-
+    $<$<CONFIG:Debug>:-Og
+    -DDEBUG>
     # For good debug experience, Arm recommends using -O1 optimization level
     # rather than -O0. When using -O1, the compiler performs certain
     # optimizations, but the structure of the generated code is still close to
     # the source code.
     $<$<CONFIG:Release>:-O1>
-
-    # -g0 # no debug information
-    # -g1 # minimal debug information
+    # -g0 # no debug information -g1 # minimal debug information
     -g # default debug information
     # -g3 # maximal debug information
     -gdwarf-2 # DWARF version 2 debugging information
-    )
+)
 
 set(PLATFORM_INDEPENDENT_LINKER_OPTIONS
     -fsingle-precision-constant
@@ -238,42 +240,49 @@ set(PLATFORM_INDEPENDENT_LINKER_OPTIONS
     -Wl,--gc-sections
     -Wl,--cref
     -Wl,--print-memory-usage
-    -Wl,--no-warn-rwx-segment)
+    -Wl,--no-warn-rwx-segment
+)
 
 # ##############################################################################
 # Firmware Target
 # ##############################################################################
 
-add_executable(${PROJECT_NAME} ${PLATFORM_INDEPENDENT_SOURCES}
-                               ${PLATFORM_SPECIFIC_SOURCES})
+add_executable(
+  STM32H750 ${PLATFORM_INDEPENDENT_SOURCES} ${PLATFORM_SPECIFIC_SOURCES}
+)
 
 target_compile_definitions(
-  ${PROJECT_NAME} PRIVATE ${PLATFORM_INDEPENDENT_DEFINES}
-                          ${PLATFORM_SPECIFIC_DEFINES})
+  STM32H750 PRIVATE ${PLATFORM_INDEPENDENT_DEFINES}
+                    ${PLATFORM_SPECIFIC_DEFINES}
+)
 
 target_include_directories(
-  ${PROJECT_NAME} PRIVATE ${PLATFORM_INDEPENDENT_INCLUDES}
-                          ${PLATFORM_SPECIFIC_INCLUDES})
+  STM32H750 PRIVATE ${PLATFORM_INDEPENDENT_INCLUDES}
+                    ${PLATFORM_SPECIFIC_INCLUDES}
+)
 
-target_compile_options(${PROJECT_NAME} PRIVATE ${PLATFORM_INDEPENDENT_OPTIONS}
-                                               ${PLATFORM_SPECIFIC_OPTIONS})
+target_compile_options(
+  STM32H750 PRIVATE ${PLATFORM_INDEPENDENT_OPTIONS}
+                    ${PLATFORM_SPECIFIC_OPTIONS}
+)
 
 target_link_options(
-  ${PROJECT_NAME} PRIVATE ${PLATFORM_INDEPENDENT_LINKER_OPTIONS}
-  ${PLATFORM_SPECIFIC_LINKER_OPTIONS})
+  STM32H750 PRIVATE ${PLATFORM_INDEPENDENT_LINKER_OPTIONS}
+  ${PLATFORM_SPECIFIC_LINKER_OPTIONS}
+)
 
-target_link_libraries(${PROJECT_NAME})
+target_link_libraries(STM32H750)
 
 # Create hex file and print executable size
 add_custom_command(
-  TARGET ${PROJECT_NAME}
+  TARGET STM32H750
   POST_BUILD
-  COMMAND arm-none-eabi-objcopy -O ihex ${PROJECT_NAME} ${PROJECT_NAME}.hex
-  COMMAND arm-none-eabi-objcopy -O binary ${PROJECT_NAME} ${PROJECT_NAME}.bin
-  COMMAND arm-none-eabi-objdump -S -t ${PROJECT_NAME} >
-          ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.dump
-  COMMAND arm-none-eabi-nm ${PROJECT_NAME} -C -n -S -s >
-          ${PROJECT_NAME}.address-sort.nm
-  COMMAND arm-none-eabi-nm ${PROJECT_NAME} -C -S -s --size-sort >
-          ${PROJECT_NAME}.size-sort.nm
-  COMMAND arm-none-eabi-size ${PROJECT_NAME})
+  COMMAND arm-none-eabi-objcopy -O ihex STM32H750 STM32H750.hex
+  COMMAND arm-none-eabi-objcopy -O binary STM32H750 STM32H750.bin
+  COMMAND arm-none-eabi-objdump -S -t STM32H750 >
+          ${CMAKE_CURRENT_BINARY_DIR}/STM32H750.dump
+  COMMAND arm-none-eabi-nm STM32H750 -C -n -S -s > STM32H750.address-sort.nm
+  COMMAND arm-none-eabi-nm STM32H750 -C -S -s --size-sort >
+          STM32H750.size-sort.nm
+  COMMAND arm-none-eabi-size STM32H750
+)
