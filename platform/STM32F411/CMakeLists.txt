@@ -11,8 +11,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(ROOT ${CMAKE_SOURCE_DIR})
 
-set(CMAKE_AR /usr/bin/arm-none-eabi-ar)
-
 # ##############################################################################
 # Platform-specific Includes and Sources
 # ##############################################################################

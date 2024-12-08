@@ -12,8 +12,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(ROOT ${CMAKE_SOURCE_DIR})
 
-set(CMAKE_AR /usr/bin/arm-none-eabi-ar)
-
 # ##############################################################################
 # Platform-specific Includes and Sources
 # ##############################################################################
@@ -277,12 +275,11 @@ target_link_libraries(STM32H750)
 add_custom_command(
   TARGET STM32H750
   POST_BUILD
-  COMMAND arm-none-eabi-objcopy -O ihex STM32H750 STM32H750.hex
-  COMMAND arm-none-eabi-objcopy -O binary STM32H750 STM32H750.bin
-  COMMAND arm-none-eabi-objdump -S -t STM32H750 >
+  COMMAND ${CMAKE_OBJCOPY} -O ihex STM32H750 STM32H750.hex
+  COMMAND ${CMAKE_OBJCOPY} -O binary STM32H750 STM32H750.bin
+  COMMAND ${CMAKE_OBJDUMP} -S -t STM32H750 >
           ${CMAKE_CURRENT_BINARY_DIR}/STM32H750.dump
-  COMMAND arm-none-eabi-nm STM32H750 -C -n -S -s > STM32H750.address-sort.nm
-  COMMAND arm-none-eabi-nm STM32H750 -C -S -s --size-sort >
-          STM32H750.size-sort.nm
+  COMMAND ${CMAKE_NM} STM32H750 -C -n -S -s > STM32H750.address-sort.nm
+  COMMAND ${CMAKE_NM} STM32H750 -C -S -s --size-sort > STM32H750.size-sort.nm
   COMMAND arm-none-eabi-size STM32H750
 )
