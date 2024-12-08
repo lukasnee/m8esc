@@ -14,11 +14,9 @@
 #include "m8ec/periph/Uart1.hpp"
 #endif
 
-#ifdef SEGGER_SYSVIEW
 #include "SEGGER_SYSVIEW.h"
 #include <reent.h> // required for _write_r
 struct _reent;
-#endif // SEGGER_SYSVIEW
 
 #include <cstdio>
 #include <errno.h>
@@ -32,9 +30,9 @@ extern "C" int _write(int fd, char *ptr, int len) {
         errno = EBADF;
         return -1;
     }
-#ifdef SEGGER_SYSVIEW
+#ifdef SEGGER_SYSVIEW_ENABLED
     SEGGER_SYSVIEW_PrintData(ptr, len);
-#else // #ifdef SEGGER_SYSVIEW
+#else // #ifdef SEGGER_SYSVIEW_ENABLED
 #if defined(STM32H750xx)
     using SerialDebug = m8ec::periph::Uart4;
 #elif defined(STM32F411xE)
@@ -43,7 +41,7 @@ extern "C" int _write(int fd, char *ptr, int len) {
     if (!SerialDebug::get_instance().write(reinterpret_cast<std::uint8_t *>(ptr), len)) {
         FONAS_PANIC();
     }
-#endif // #ifdef SEGGER_SYSVIEW
+#endif // #ifdef SEGGER_SYSVIEW_ENABLED
     return len;
 }
 

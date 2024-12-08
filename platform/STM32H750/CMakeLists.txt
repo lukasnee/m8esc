@@ -1,14 +1,26 @@
 project(STM32H750)
 
-option(SEGGER_SYSVIEW "Enable SEGGER SystemView" OFF)
 message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "SEGGER SystemView: ${SEGGER_SYSVIEW}")
 
 enable_language(CXX C ASM)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 17)
+
+# TODO: extract to toolchain file
+set(CMAKE_C_FLAGS
+    "${CMAKE_C_FLAGS} -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard"
+)
+set(CMAKE_CXX_FLAGS
+    "${CMAKE_CXX_FLAGS} -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard"
+)
+set(CMAKE_ASM_FLAGS
+    "${CMAKE_ASM_FLAGS} -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard"
+)
+set(CMAKE_EXE_LINKER_FLAGS
+    "${CMAKE_EXE_LINKER_FLAGS} -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard"
+)
 
 set(ROOT ${CMAKE_SOURCE_DIR})
 
@@ -22,14 +34,9 @@ set(PLATFORM_SPECIFIC_INCLUDES_STM32H7xx
     USB_HOST/Target
     Drivers/STM32H7xx_HAL_Driver/Inc
     Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
-    Middlewares/Third_Party/FreeRTOS/Source/include
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
     Middlewares/ST/STM32_USB_Host_Library/Core/Inc
     Middlewares/ST/STM32_USB_Host_Library/Class/AUDIO/Inc
     Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Inc
-    Drivers/CMSIS/Device/ST/STM32H7xx/Include
-    Drivers/CMSIS/Include
     ../../extern/ILI9341-STM32-HAL
     include
 )
@@ -74,16 +81,6 @@ set(PLATFORM_SPECIFIC_SOURCES_STM32H7xx
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c
     Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
-    Middlewares/Third_Party/FreeRTOS/Source/croutine.c
-    Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
-    Middlewares/Third_Party/FreeRTOS/Source/list.c
-    Middlewares/Third_Party/FreeRTOS/Source/queue.c
-    Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c
-    Middlewares/Third_Party/FreeRTOS/Source/tasks.c
-    # Middlewares/Third_Party/FreeRTOS/Source/timers.c
-    Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
     Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_core.c
     Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c
     Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ioreq.c
@@ -122,25 +119,6 @@ set(PLATFORM_SPECIFIC_LINKER_OPTIONS
     ${PLATFORM_SPECIFIC_LINKER_OPTIONS_STM32H7xx}
 )
 
-if(SEGGER_SYSVIEW)
-  set(PLATFORM_SPECIFIC_INCLUDES
-      ${PLATFORM_SPECIFIC_INCLUDES}
-      SYSVIEW)
-  set(PLATFORM_SPECIFIC_SOURCES
-      ${PLATFORM_SPECIFIC_SOURCES}
-      ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_ASM_ARMv7M.S
-      # ../../extern/SystemView_Src_V352a/SEGGER/Syscalls/SEGGER_RTT_Syscalls_GCC.c implemention customized in source/stdio.cpp
-      SYSVIEW/SEGGER_SYSVIEW_FreeRTOS.c
-      SYSVIEW/Config/Cortex-M/SEGGER_SYSVIEW_Config_FreeRTOS.c)
-  set(PLATFORM_SPECIFIC_DEFINES
-      ${PLATFORM_SPECIFIC_DEFINES}
-      -DSEGGER_SYSVIEW)
-else()
-  set(PLATFORM_SPECIFIC_INCLUDES
-      ${PLATFORM_SPECIFIC_INCLUDES}
-      ../../include/debug)
-endif()
-
 # ##############################################################################
 # Platform-Independent Includes and Sources
 # ##############################################################################
@@ -173,25 +151,6 @@ set(PLATFORM_INDEPENDENT_INCLUDES
     ../../extern/freertos-addons/c++/Source/include ../../extern/fonas/include
     ../../include
 )
-
-if(SEGGER_SYSVIEW)
-  set(PLATFORM_INDEPENDENT_INCLUDES
-      ${PLATFORM_INDEPENDENT_INCLUDES}
-      ../../extern/SystemView_Src_V352a/Config
-      ../../extern/SystemView_Src_V352a/SEGGER
-      ../../extern/ucprof/include)
-  set(PLATFORM_INDEPENDENT_SOURCES
-      ${PLATFORM_INDEPENDENT_SOURCES}
-      ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT.c
-      ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_printf.c
-      ../../extern/SystemView_Src_V352a/SEGGER/SEGGER_SYSVIEW.c
-      ../../extern/ucprof/ucprof.c)
-  set(PLATFORM_SPECIFIC_OPTIONS
-      ${PLATFORM_SPECIFIC_OPTIONS}
-      -finstrument-functions
-      -finstrument-functions-exclude-file-list=Core/Src/system_stm32h7xx,Core/Src/main,Core/Src/dma,Core/Src/freertos,Core/Src/gpio,Core/Src/i2s,Core/Src/spi,Core/Src/usart,Core/Src/stm32h7xx_it,Core/Src/stm32h7xx_hal_msp,Core/Src/stm32h7xx_hal_timebase_tim,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hcd,Drivers/CMSIS/Include/cmsis_gcc.h,Drivers/CMSIS/Include/core_cm7.h,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2s,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2s_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex,Middlewares/Third_Party/FreeRTOS/Source/croutine,Middlewares/Third_Party/FreeRTOS/Source/event_groups,Middlewares/Third_Party/FreeRTOS/Source/list,Middlewares/Third_Party/FreeRTOS/Source/queue,Middlewares/Third_Party/FreeRTOS/Source/stream_buffer,Middlewares/Third_Party/FreeRTOS/Source/tasks,Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2,Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4,Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_ASM_ARMv7M.S,source/stdio,SYSVIEW/SEGGER_SYSVIEW_FreeRTOS,SYSVIEW/Config/Cortex-M/SEGGER_SYSVIEW_Config_FreeRTOS,extern/freertos-addons/c++/Source/cmutex,extern/freertos-addons/c++/Source/cqueue,extern/freertos-addons/c++/Source/csemaphore,extern/freertos-addons/c++/Source/cthread,source/periph/UartCallbacks,source/periph/SpiCallbacks,source/KeysThread,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_printf,extern/SystemView_Src_V352a/SEGGER/SEGGER_SYSVIEW,extern/SystemView_Src_V352a/SEGGER/SYSVIEW,extern/ucprof/ucprof.c
-    )
-endif()
 
 set(PLATFORM_INDEPENDENT_DEFINES -DCPP_FREERTOS_NO_EXCEPTIONS
                                  -DCPP_FREERTOS_NO_CPP_STRINGS -DFONAS
@@ -269,9 +228,69 @@ target_link_options(
   ${PLATFORM_SPECIFIC_LINKER_OPTIONS}
 )
 
-target_link_libraries(STM32H750)
+# SEGGER SystemView
 
-# Create hex file and print executable size
+add_subdirectory(config/SEGGER_SYSVIEW)
+add_library(SeggerSysView_config INTERFACE)
+target_link_libraries(
+  SeggerSysView_config INTERFACE SeggerSysView_config_STM32H750
+)
+
+if(SEGGER_SYSVIEW_ENABLED)
+  set(PLATFORM_SPECIFIC_OPTIONS
+      ${PLATFORM_SPECIFIC_OPTIONS}
+      -finstrument-functions
+      -finstrument-functions-exclude-file-list=Core/Src/system_stm32h7xx,Core/Src/main,Core/Src/dma,Core/Src/freertos,Core/Src/gpio,Core/Src/i2s,Core/Src/spi,Core/Src/usart,Core/Src/stm32h7xx_it,Core/Src/stm32h7xx_hal_msp,Core/Src/stm32h7xx_hal_timebase_tim,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hcd,Drivers/CMSIS/Include/cmsis_gcc.h,Drivers/CMSIS/Include/core_cm7.h,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2s,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2s_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart,Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_ASM_ARMv7M.S,source/stdio,SYSVIEW/SEGGER_SYSVIEW_FreeRTOS,SYSVIEW/Config/Cortex-M/SeggerSYSVIEW_Config_FreeRTOS,source/periph/UartCallbacks,source/periph/SpiCallbacks,source/KeysThread,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT,extern/SystemView_Src_V352a/SEGGER/SEGGER_RTT_printf,extern/SystemView_Src_V352a/SEGGER/SEGGER_SYSVIEW,extern/SystemView_Src_V352a/SEGGER/SYSVIEW
+  )
+endif()
+
+# ucprof
+
+add_library(ucprof_config INTERFACE)
+target_include_directories(
+  ucprof_config INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/config
+)
+
+cpmaddpackage(
+  NAME
+  ucprof
+  GITHUB_REPOSITORY
+  lukasnee/ucprof
+  GIT_TAG
+  dev
+  CPM_USE_LOCAL_PACKAGES
+)
+
+# FreeRTOS
+
+add_library(freertos_config INTERFACE)
+target_include_directories(
+  freertos_config
+  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/config
+            Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
+            Drivers/STM32H7xx_HAL_Driver/Inc # for stm32h7xx_hal.h
+            Core/Inc # stm32h7xx_hal_conf.h
+)
+target_compile_definitions(
+  freertos_config INTERFACE -DUSE_HAL_DRIVER -DSTM32H750xx -DSTM32H7
+)
+
+target_sources(
+  freertos_config
+  PUBLIC Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
+         Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
+)
+
+target_link_libraries(
+  freertos_config INTERFACE SeggerSysView ucprof_config ucprof CMSIS
+)
+add_subdirectory(Middlewares/Third_Party/FreeRTOS)
+
+# CMSIS
+
+add_subdirectory(Drivers/CMSIS)
+target_link_libraries(STM32H750 PUBLIC FreeRTOS SeggerSysView ucprof CMSIS)
+
 add_custom_command(
   TARGET STM32H750
   POST_BUILD

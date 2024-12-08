@@ -62,10 +62,11 @@ def main():
                 args.build_dir,
                 "-DPLATFORM={}".format(args.platform),
                 "-G",
-                "Unix Makefiles",
+                "Ninja",
+                "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
                 "-DCMAKE_TOOLCHAIN_FILE=arm-none-eabi-gcc.cmake",
                 "-DCMAKE_BUILD_TYPE={}".format(args.build_target),
-                "-DSEGGER_SYSVIEW={}".format(
+                "-DSEGGER_SYSVIEW_ENABLED={}".format(
                     "ON" if args.sysview else "OFF"),
             ]
         )

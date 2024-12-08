@@ -30,10 +30,8 @@
 /* USER CODE BEGIN Includes */
 #include "ILI9341/ili9341.h"
 #include "m8ec/m8ec.h"
-#ifdef SEGGER_SYSVIEW
 #include "SEGGER_SYSVIEW.h"
 #include "ucprof/ucprof.h"
-#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -78,10 +76,8 @@ void MX_FREERTOS_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-#ifdef SEGGER_SYSVIEW
   SEGGER_SYSVIEW_Conf();
   ucprof_init();
-#endif
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/

@@ -29,9 +29,7 @@
 
 #include "usb_host.h"
 
-#ifdef SEGGER_SYSVIEW
 #include "SEGGER_SYSVIEW.h"
-#endif
 
 /* USER CODE END Includes */
 
@@ -121,9 +119,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartupTask */
 void startupTask(void *arg)
 {
-#ifdef SEGGER_SYSVIEW
   SEGGER_SYSVIEW_Start();
-#endif
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */

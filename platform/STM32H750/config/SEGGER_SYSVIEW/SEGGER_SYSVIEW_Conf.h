@@ -46,54 +46,47 @@
 *                                                                    *
 **********************************************************************
 -------------------------- END-OF-HEADER -----------------------------
-File    : SEGGER_SYSVIEW_Int.h
-Purpose : SEGGER SystemView internal header.
-Revision: $Rev: 21281 $
+
+File    : SEGGER_SYSVIEW_Conf.h
+Purpose : SEGGER SystemView configuration file.
+          Set defines which deviate from the defaults (see SEGGER_SYSVIEW_ConfDefaults.h) here.          
+Revision: $Rev: 21292 $
+
+Additional information:
+  Required defines which must be set are:
+    SEGGER_SYSVIEW_GET_TIMESTAMP
+    SEGGER_SYSVIEW_GET_INTERRUPT_ID
+  For known compilers and cores, these might be set to good defaults
+  in SEGGER_SYSVIEW_ConfDefaults.h.
+  
+  SystemView needs a (nestable) locking mechanism.
+  If not defined, the RTT locking mechanism is used,
+  which then needs to be properly configured.
 */
 
-#ifndef SEGGER_SYSVIEW_INT_H
-#define SEGGER_SYSVIEW_INT_H
+#ifndef SEGGER_SYSVIEW_CONF_H
+#define SEGGER_SYSVIEW_CONF_H
 
 /*********************************************************************
 *
-*       #include Section
+*       Defines, configurable
 *
 **********************************************************************
 */
 
-#include "SEGGER_SYSVIEW.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
 /*********************************************************************
-*
-*       Private data types
-*
+* TODO: Add your defines here.                                       *
 **********************************************************************
 */
-//
-// Commands that Host can send to target
-//
-typedef enum {
-  SEGGER_SYSVIEW_COMMAND_ID_START = 1,
-  SEGGER_SYSVIEW_COMMAND_ID_STOP,
-  SEGGER_SYSVIEW_COMMAND_ID_GET_SYSTIME,
-  SEGGER_SYSVIEW_COMMAND_ID_GET_TASKLIST,
-  SEGGER_SYSVIEW_COMMAND_ID_GET_SYSDESC,
-  SEGGER_SYSVIEW_COMMAND_ID_GET_NUMMODULES,
-  SEGGER_SYSVIEW_COMMAND_ID_GET_MODULEDESC,
-  SEGGER_SYSVIEW_COMMAND_ID_HEARTBEAT = 127,
-  // Extended commands: Commands >= 128 have a second parameter
-  SEGGER_SYSVIEW_COMMAND_ID_GET_MODULE = 128
-} SEGGER_SYSVIEW_COMMAND_ID;
 
-#ifdef __cplusplus
-}
-#endif
+#define SEGGER_SYSVIEW_APP_NAME "m8ec"
+#define SEGGER_SYSVIEW_DEVICE_NAME "STM32H750VB"
+#define SEGGER_SYSVIEW_RTT_BUFFER_SIZE 16*1024
+// #define SEGGER_SYSVIEW_CPU_CACHE_LINE_SIZE 
+#define SEGGER_SYSVIEW_ID_BASE 0x24000000
+// #define SEGGER_SYSVIEW_ID_SHIFT 2
+#define SEGGER_SYSVIEW_MAX_STRING_LEN 256
 
-#endif
+#endif  // SEGGER_SYSVIEW_CONF_H
 
 /*************************** End of file ****************************/
