@@ -64,7 +64,7 @@ def main():
                 "-G",
                 "Ninja",
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
-                "-DCMAKE_TOOLCHAIN_FILE=arm-none-eabi-gcc.cmake",
+                "-DCMAKE_TOOLCHAIN_FILE=arm-none-eabi-gcc.STM32H750.cmake",
                 "-DCMAKE_BUILD_TYPE={}".format(args.build_target),
                 "-DSEGGER_SYSVIEW_ENABLED={}".format(
                     "ON" if args.sysview else "OFF"),

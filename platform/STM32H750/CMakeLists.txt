@@ -1,27 +1,5 @@
 project(STM32H750)
 
-message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
-
-enable_language(CXX C ASM)
-
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 17)
-
-# TODO: extract to toolchain file
-set(CMAKE_C_FLAGS
-    "${CMAKE_C_FLAGS} -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard"
-)
-set(CMAKE_CXX_FLAGS
-    "${CMAKE_CXX_FLAGS} -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard"
-)
-set(CMAKE_ASM_FLAGS
-    "${CMAKE_ASM_FLAGS} -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard"
-)
-set(CMAKE_EXE_LINKER_FLAGS
-    "${CMAKE_EXE_LINKER_FLAGS} -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard"
-)
-
 set(ROOT ${CMAKE_SOURCE_DIR})
 
 # ##############################################################################
@@ -231,10 +209,6 @@ target_link_options(
 # SEGGER SystemView
 
 add_subdirectory(config/SEGGER_SYSVIEW)
-add_library(SeggerSysView_config INTERFACE)
-target_link_libraries(
-  SeggerSysView_config INTERFACE SeggerSysView_config_STM32H750
-)
 
 if(SEGGER_SYSVIEW_ENABLED)
   set(PLATFORM_SPECIFIC_OPTIONS
@@ -244,22 +218,6 @@ if(SEGGER_SYSVIEW_ENABLED)
   )
 endif()
 
-# ucprof
-
-add_library(ucprof_config INTERFACE)
-target_include_directories(
-  ucprof_config INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/config
-)
-
-cpmaddpackage(
-  NAME
-  ucprof
-  GITHUB_REPOSITORY
-  lukasnee/ucprof
-  GIT_TAG
-  dev
-  CPM_USE_LOCAL_PACKAGES
-)
 
 # FreeRTOS
 
