@@ -3,10 +3,14 @@ import subprocess
 import argparse
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "..",
-                "extern", "W25Q64_STM32H750VB-DevEBox", "tools", "comm"))
+comm_relpath = os.path.normpath(os.path.join(os.path.dirname(__file__), "..",
+                                             "extern", "W25Q64_STM32H750VB-DevEBox", "tools", "comm"))
+if not os.path.exists(comm_relpath):
+    raise Exception(f"comm does exist at {comm_relpath}")
+# autopep8: off
+sys.path.append(comm_relpath)
 from comm import Comm
-
+# autopep8: on
 
 def sys_cmd(cmd):
     print(' '.join(cmd))
