@@ -85,8 +85,7 @@ def main():
     if args.flash:
         comm = Comm(args.serial_dev)
         comm.await_bootloader(10.0)
-        comm.transfer_file(
-            f".build/platform/{args.platform}/{args.platform}.bin", "boot/app.bin")
+        comm.transfer_file(f".build/source/m8ec.bin", "boot/app.bin")
         comm.release_bootloader()
 
     if args.serial:

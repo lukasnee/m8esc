@@ -12,8 +12,6 @@
 
 #include "m8ec/platform/IKeys.hpp"
 
-#include "stm32h7xx_hal.h"
-
 namespace m8ec {
 
 class Keys : public IKeys {
