@@ -89,7 +89,7 @@ struct Canvas {
 constexpr auto canvas_max = Canvas{0, 0, 320, 21};
 std::array<uint8_t, (canvas_max.w * canvas_max.h / 8)> bmp_buff = {0};
 
-void draw_waveform(const m8_protocol::Waveform &waveform, size_t waveform_width) {
+void draw_waveform(const m8_protocol::Waveform &waveform, uint16_t waveform_width) {
     if (!ili9341_lcd) {
         return;
     }
@@ -98,7 +98,7 @@ void draw_waveform(const m8_protocol::Waveform &waveform, size_t waveform_width)
         waveform_width = canvas_max.w; // limit the width
     }
 
-    static size_t last_waveform_width = 0;
+    static uint16_t last_waveform_width = 0;
     static bool was_blank = false;
 
     const bool is_blank = 0 == waveform_width;
@@ -106,7 +106,11 @@ void draw_waveform(const m8_protocol::Waveform &waveform, size_t waveform_width)
         return; // skip
     }
     const auto canvas_w = is_blank ? last_waveform_width : waveform_width;
-    const auto canvas_x = canvas_max.w - canvas_w;
+    if(canvas_w > canvas_max.w) {
+        LOG("warning: draw_waveform: canvas_w: %u: too large\n", canvas_w);
+        return;
+    }
+    const auto canvas_x = static_cast<uint16_t>(canvas_max.w - canvas_w);
     const auto canvas = Canvas{canvas_x, canvas_max.y, canvas_w, canvas_max.h};
     last_waveform_width = waveform_width;
     bmp_buff.fill(0);

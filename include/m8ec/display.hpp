@@ -19,7 +19,7 @@
 
 namespace m8ec::display {
 bool initialize();
-void draw_waveform(const m8_protocol::Waveform &waveform, size_t waveform_width);
+void draw_waveform(const m8_protocol::Waveform &waveform, uint16_t waveform_width);
 void draw_rectangle(const m8_protocol::Rectangle &rectangle);
 int draw_character(const m8_protocol::Character &character);
 void set_large_mode(int enabled);

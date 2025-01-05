@@ -196,9 +196,9 @@ bool handle_cmd(uint8_t *data, uint32_t size) {
     }
     else if (cmd_id == cmd::DrawWaveform::cmd_id && cmd::DrawWaveform::validate_size(payload_size)) {
         const auto &waveform = reinterpret_cast<const cmd::DrawWaveform *>(payload_data)->waveform;
-        const auto waveform_width = payload_size - sizeof(Color);
+        const auto waveform_width = static_cast<uint16_t>(payload_size - sizeof(Color));
         if (m8ec::Config::debug_m8_protocol) {
-            LOG("DrawWaveform: w:%u\n", waveform_width);
+            LOG("DrawWaveform: w:%hu\n", waveform_width);
         }
         display::draw_waveform(waveform, waveform_width);
     }
