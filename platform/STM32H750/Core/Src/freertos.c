@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "m8ec/m8ec.h"
+#include "platform.h"
 
 #include "usb_host.h"
 
@@ -124,7 +124,7 @@ void startupTask(void *arg)
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
-  m8ec_launch();
+  platform_app();
 //  static uint16_t audio_out_buffer[256];
 //  HAL_I2S_Transmit_DMA(&hi2s2, audio_out_buffer, 256);
   osThreadTerminate(startupTaskHandle);

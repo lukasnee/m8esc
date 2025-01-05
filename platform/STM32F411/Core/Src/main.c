@@ -26,7 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ILI9341/ili9341.h"
-#include "m8ec/m8ec.h"
+#include "platform.h"
 #include "SEGGER_SYSVIEW.h"
 /* USER CODE END Includes */
 
@@ -396,7 +396,7 @@ void StartDefaultTask(void *argument)
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
   /* USER CODE BEGIN 5 */
-  m8ec_launch();
+  platform_app();
 //   HAL_I2S_Transmit_DMA(&hi2s2, audio_out_buffer, 256);
   osThreadTerminate(defaultTaskHandle);
   /* USER CODE END 5 */

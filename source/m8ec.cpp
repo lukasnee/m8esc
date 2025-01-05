@@ -8,7 +8,8 @@
  * (at your option) any later version.
  */
 
-#include "m8ec/m8ec.h"
+#include "platform.h"
+
 #include "m8ec/KeysThread.hpp"
 #include "m8ec/m8ec.hpp"
 
@@ -96,4 +97,4 @@ void launch() {
 
 } // namespace m8ec
 
-extern "C" void m8ec_launch() { m8ec::launch(); }
+extern "C" void platform_app() { m8ec::launch(); }

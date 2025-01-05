@@ -18,8 +18,6 @@ extern "C"
 #include <stdint.h>
 #include <stdio.h>
 
-    void m8ec_launch();
-
 #define LOG(...) printf(__VA_ARGS__)
 
 #if DEBUG
