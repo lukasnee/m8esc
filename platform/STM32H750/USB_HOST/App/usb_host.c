@@ -113,7 +113,7 @@ const char *USER_STRINGS[] = {
 static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 {
   /* USER CODE BEGIN CALL_BACK_1 */
-  USBH_UsrLog("%s (%u:%u)", USER_STRINGS[id], USBH_GetActiveClassCode(phost), USBH_GetActiveSubclassCode(phost));
+  USBH_UsrLog("%s (%u:%u)", USER_STRINGS[id], USBH_GetActiveClassCode(phost), USBH_GetActiveSubClassCode(phost));
   switch(id)
   {
   case HOST_USER_SELECT_CONFIGURATION:

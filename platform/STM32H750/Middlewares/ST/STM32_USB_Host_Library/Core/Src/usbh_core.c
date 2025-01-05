@@ -440,7 +440,7 @@ uint8_t USBH_GetActiveClassCode(USBH_HandleTypeDef *phost)
 {
   return (phost->device.CfgDesc.Itf_Desc[phost->ActiveIfaceCtrl.ifaces[phost->ActiveIfaceCtrl.currIdx].descIdx].bInterfaceClass);
 }
-uint8_t USBH_GetActiveSubclassCode(USBH_HandleTypeDef *phost)
+uint8_t USBH_GetActiveSubClassCode(USBH_HandleTypeDef *phost)
 {
   return (phost->device.CfgDesc.Itf_Desc[phost->ActiveIfaceCtrl.ifaces[phost->ActiveIfaceCtrl.currIdx].descIdx].bInterfaceSubClass);
 }
