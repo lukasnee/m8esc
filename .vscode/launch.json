@@ -5,17 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "m8ec (jlink)",
+            "name": "m8ec [jlink]",
             "type": "cortex-debug",
             "request": "attach",
             "servertype": "openocd",
             "configFiles": [
-                "../../openocd.jlink.cfg"
+                "../openocd.jlink.cfg"
             ],
             "rtos": "FreeRTOS",
-            "cwd": "${workspaceRoot}/platform/STM32H750",
+            "cwd": "${workspaceRoot}/source",
             "symbolFiles": [
-                "${workspaceRoot}/.build/platform/STM32H750/STM32H750",
+                "${workspaceRoot}/.build/source/m8ec",
                 "${workspaceRoot}/extern/W25Q64_STM32H750VB-DevEBox/.build/bl_iram/bl_iram.elf",
             ],
             "svdFile": "${workspaceRoot}/tools/STM32H753.svd",
@@ -25,17 +25,17 @@
             // "showDevDebugOutput": "raw",
         },
         {
-            "name": "m8ec (stlink)",
+            "name": "m8ec [stlink]",
             "type": "cortex-debug",
             "request": "attach",
             "servertype": "openocd",
             "configFiles": [
-                "../../openocd.stlink.cfg"
+                "../openocd.stlink.cfg"
             ],
             "rtos": "FreeRTOS",
-            "cwd": "${workspaceRoot}/platform/STM32H750",
+            "cwd": "${workspaceRoot}/source",
             "symbolFiles": [
-                "${workspaceRoot}/.build/platform/STM32H750/STM32H750",
+                "${workspaceRoot}/.build/source/m8ec",
                 "${workspaceRoot}/extern/W25Q64_STM32H750VB-DevEBox/.build/bl_iram/bl_iram.elf",
             ],
             "svdFile": "${workspaceRoot}/tools/STM32H753.svd",

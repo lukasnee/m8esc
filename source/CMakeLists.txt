@@ -15,6 +15,7 @@ target_sources(
           periph/UsbCdc.cpp
           KeysThread.cpp
           platform/${PLATFORM}/Keys.cpp
+          ../platform/${PLATFORM}/Core/Src/stm32h7xx_it.c
 )
 
 target_include_directories(m8ec PUBLIC ../include)

@@ -11,7 +11,6 @@ add_library(
   Core/Src/i2s.c
   Core/Src/spi.c
   Core/Src/usart.c
-  Core/Src/stm32h7xx_it.c
   Core/Src/stm32h7xx_hal_msp.c
   Core/Src/stm32h7xx_hal_timebase_tim.c
   USB_HOST/App/usb_host.c
