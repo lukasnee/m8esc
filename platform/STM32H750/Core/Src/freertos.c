@@ -119,6 +119,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartupTask */
 void startupTask(void *arg)
 {
+  UNUSED(arg);
   SEGGER_SYSVIEW_Start();
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
