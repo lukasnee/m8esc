@@ -15,7 +15,7 @@
             "rtos": "FreeRTOS",
             "cwd": "${workspaceRoot}/source",
             "symbolFiles": [
-                "${workspaceRoot}/.build/source/m8ec",
+                "${workspaceRoot}/.build/m8ec_exe",
                 "${workspaceRoot}/extern/W25Q64_STM32H750VB-DevEBox/.build/bl_iram/bl_iram.elf",
             ],
             "svdFile": "${workspaceRoot}/tools/STM32H753.svd",
@@ -35,7 +35,7 @@
             "rtos": "FreeRTOS",
             "cwd": "${workspaceRoot}/source",
             "symbolFiles": [
-                "${workspaceRoot}/.build/source/m8ec",
+                "${workspaceRoot}/.build/m8ec_exe",
                 "${workspaceRoot}/extern/W25Q64_STM32H750VB-DevEBox/.build/bl_iram/bl_iram.elf",
             ],
             "svdFile": "${workspaceRoot}/tools/STM32H753.svd",

@@ -36,9 +36,12 @@ target_include_directories(
 )
 
 add_subdirectory(platform/${PLATFORM})
+
 add_subdirectory(extern/ucprof)
 add_subdirectory(extern/freertos-addons)
 add_subdirectory(extern/fonas)
 add_subdirectory(extern/ILI9341-STM32-HAL)
 
-add_subdirectory(source)
+add_subdirectory(source) # m8ec
+
+platform_link_app(m8ec)
