@@ -29,7 +29,7 @@ Keys &Keys::getInstance() {
 
 bool Keys::init() {
 
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitTypeDef GPIO_InitStruct = {};
 
     __HAL_RCC_GPIOB_CLK_ENABLE();
 

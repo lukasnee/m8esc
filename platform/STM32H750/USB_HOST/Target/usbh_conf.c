@@ -180,6 +180,8 @@ void HAL_HCD_Disconnect_Callback(HCD_HandleTypeDef *hhcd)
   */
 void HAL_HCD_HC_NotifyURBChange_Callback(HCD_HandleTypeDef *hhcd, uint8_t chnum, HCD_URBStateTypeDef urb_state)
 {
+  UNUSED(chnum);
+  UNUSED(urb_state);
   //SEGGER_SYSVIEW_RecordEnterISR();
   //SEGGER_SYSVIEW_Print("URB");
   /* To be used with OS to sync URB state with the global state machine */

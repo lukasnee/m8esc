@@ -34,6 +34,8 @@ target_compile_definitions(
   STM32H7xx_HAL PUBLIC -DUSE_HAL_DRIVER -DSTM32H750xx -DSTM32H7
 )
 
+target_compile_options(STM32H7xx_HAL PRIVATE -Wno-unused-parameter)
+
 if(NOT TARGET STM32H7xx_HAL_conf)
   message(FATAL_ERROR "STM32H7xx_HAL_conf not found")
 endif()

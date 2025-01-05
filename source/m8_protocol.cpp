@@ -57,7 +57,7 @@ public:
 
 private:
     static constexpr const char *err_fmt_invalid_packet_length_range =
-        "Error: %s: Invalid packet length: expected [%u %u], got %u\n";
+        "Error: %s: Invalid packet length: expected [%u %u], got %lu\n";
 };
 #pragma pack(push, 1)
 struct KeyState : public Cmd<KeyState, 0xFB, 2, 2> {
@@ -218,7 +218,7 @@ bool handle_cmd(uint8_t *data, uint32_t size) {
     }
     else if (cmd_id == cmd::PrintSystemInfo::cmd_id && cmd::PrintSystemInfo::validate_size(payload_size)) {
         const auto &system_info = reinterpret_cast<const cmd::PrintSystemInfo *>(payload_data)->system_info;
-        char *device_type[] = {"Headless", "M8 Beta", "M8 Production"};
+        const char *device_type[] = {"Headless", "M8 Beta", "M8 Production"};
         static bool system_info_already_printed = false;
         if (!system_info_already_printed) {
             LOG("System Info: device type: %s, firmware version %d.%d.%d\n", device_type[system_info.hw_type],
