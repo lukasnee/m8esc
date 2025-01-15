@@ -18,9 +18,16 @@
 #include <reent.h> // required for _write_r
 struct _reent;
 
-#include <cstdio>
-#include <errno.h>
+#include <sys/stat.h>
 #include <sys/unistd.h>
+
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
+
+#ifndef UNUSED
+#define UNUSED(x) (void)(x)
+#endif
 
 /**
  * @brief Standard output redirection to the screen
@@ -45,10 +52,40 @@ extern "C" int _write(int fd, char *ptr, int len) {
     return len;
 }
 
-extern "C" void _close(void) {}
-extern "C" void _lseek(void) {}
-extern "C" void _read(void) {}
-extern "C" void _fstat(void) {}
-extern "C" void _isatty(void) {}
-extern "C" void _getpid(void) {}
-extern "C" void _kill(void) {}
+extern "C" int _close(int fd) {
+    UNUSED(fd);
+    return -1;
+}
+
+extern "C" int _lseek(int fd, int ptr, int dir) {
+    UNUSED(fd);
+    UNUSED(ptr);
+    UNUSED(dir);
+    return 0;
+}
+
+extern "C" int _read(int fd, char *ptr, int len) {
+    UNUSED(fd);
+    UNUSED(ptr);
+    return len;
+}
+
+extern "C" int _fstat(int fd, struct stat *st) {
+    UNUSED(fd);
+    memset(st, 0, sizeof(*st));
+    return 0;
+}
+
+extern "C" int _isatty(int fd) {
+    UNUSED(fd);
+    return 1;
+}
+
+extern "C" int _getpid(void) { return 1; }
+
+extern "C" int _kill(int pid, int sig) {
+    UNUSED(pid);
+    UNUSED(sig);
+    errno = EINVAL;
+    return -1;
+}

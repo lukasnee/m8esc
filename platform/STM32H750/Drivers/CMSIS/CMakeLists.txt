@@ -1,6 +1,8 @@
 add_library(CMSIS INTERFACE)
 
-target_include_directories(CMSIS INTERFACE Device/ST/STM32H7xx/Include Include)
+target_include_directories(
+  CMSIS INTERFACE Device/ST/STM32H7xx/Include Include RTOS/Include RTOS2/Include
+)
 
 if(SEGGER_SYSVIEW_ENABLED)
   target_compile_options(

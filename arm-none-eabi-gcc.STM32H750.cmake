@@ -1,5 +1,6 @@
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR ARM)
+set(CMAKE_CROSSCOMPILING TRUE)
 
 if(MINGW
    OR CYGWIN
@@ -65,7 +66,7 @@ set(COMPILER_FLAGS "-fdata-sections -ffunction-sections")
 set(CMAKE_C_FLAGS "${COMMON_FLAGS} ${COMPILER_FLAGS}")
 
 set(CMAKE_CXX_FLAGS
-    "${COMMON_FLAGS} ${COMPILER_FLAGS} -fno-rtti -fno-exceptions -fno-threadsafe-statics"
+    "${COMMON_FLAGS} ${COMPILER_FLAGS} -fno-rtti -fno-exceptions" #  -fno-threadsafe-statics
 )
 set(CMAKE_ASM_FLAGS "-x assembler-with-cpp ${COMMON_FLAGS} ${COMPILER_FLAGS}")
 

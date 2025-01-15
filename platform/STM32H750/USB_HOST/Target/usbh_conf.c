@@ -23,6 +23,7 @@
 
 /* USER CODE BEGIN Includes */
 
+#include "FreeRTOS.h"
 #include "task.h"
 #include "SEGGER_SYSVIEW.h"
 /* USER CODE END Includes */

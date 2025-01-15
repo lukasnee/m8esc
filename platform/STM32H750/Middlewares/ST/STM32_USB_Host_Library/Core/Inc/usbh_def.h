@@ -496,13 +496,8 @@ typedef struct _USBH_HandleTypeDef
   void (* pUser)(struct _USBH_HandleTypeDef *pHandle, uint8_t id);
 
 #if (USBH_USE_OS == 1U)
-#if osCMSIS < 0x20000
-  osMessageQId          os_event;
-  osThreadId            thread;
-#else
   osMessageQueueId_t    os_event;
   osThreadId_t          thread;
-#endif
   uint32_t              os_msg;
 #endif
 

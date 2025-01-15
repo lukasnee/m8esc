@@ -7,7 +7,7 @@ if(SEGGER_SYSVIEW_ENABLED)
   target_include_directories(
     SeggerSysView_config_STM32H750 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
   )
-  target_link_libraries(SeggerSysView_config_STM32H750 PRIVATE FreeRTOS)
+  target_link_libraries(SeggerSysView_config_STM32H750 PRIVATE freertos_kernel)
 
   target_compile_options(
     SeggerSysView_config_STM32H750
@@ -20,5 +20,5 @@ else()
   add_library(SeggerSysView_config_STM32H750 INTERFACE)
   # target_include_directories(SeggerSysView_config_STM32H750 INTERFACE
   # ${CMAKE_CURRENT_SOURCE_DIR})
-  # target_link_libraries(SeggerSysView_config_STM32H750 INTERFACE FreeRTOS)
+  # target_link_libraries(SeggerSysView_config_STM32H750 INTERFACE freertos_kernel)
 endif()

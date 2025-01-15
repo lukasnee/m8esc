@@ -25,6 +25,7 @@ target_sources(
             Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c
             Middlewares/ST/STM32_USB_Host_Library/Class/AUDIO/Src/usbh_audio.c
             Middlewares/ST/STM32_USB_Host_Library/Class/CDC/Src/usbh_cdc.c
+            Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c
 )
 
 target_compile_definitions(
@@ -49,6 +50,8 @@ target_include_directories(
             Core/Inc
             ../../extern/ILI9341-STM32-HAL
             include
+            Middlewares/Third_Party/FreeRTOS/Source/include
+            Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
 )
 
 target_include_directories(
@@ -74,6 +77,7 @@ target_link_options(
   INTERFACE
   -T${CMAKE_CURRENT_LIST_DIR}/STM32H750VBTx_RAM.ld
   -Wl,--no-warn-rwx-segment
+#   -Wl,--undefined=uxTopUsedPriority
 )
 
 add_subdirectory(Drivers/CMSIS)
@@ -87,34 +91,10 @@ add_subdirectory(Drivers/STM32H7xx_HAL_Driver)
 
 add_subdirectory(config/SEGGER_SYSVIEW)
 
-add_library(freertos_config INTERFACE)
-target_include_directories(
-  freertos_config
-  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/config
-            Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
-)
-target_link_libraries(freertos_config INTERFACE STM32H7xx_HAL_conf)
-
-target_sources(
-  freertos_config
-  PUBLIC Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-         Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
-)
-
-target_link_libraries(
-  freertos_config
-  INTERFACE STM32H7xx_HAL
-            SeggerSysView
-            ucprof_config
-            ucprof
-            CMSIS
-)
-add_subdirectory(Middlewares/Third_Party/FreeRTOS)
-
 target_link_libraries(
   platform
   INTERFACE STM32H7xx_HAL
-            FreeRTOS
+            freertos_kernel
             SeggerSysView
             ucprof
             CMSIS

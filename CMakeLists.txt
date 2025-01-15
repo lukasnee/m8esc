@@ -37,6 +37,28 @@ target_include_directories(
 
 add_subdirectory(platform/${PLATFORM})
 add_subdirectory(extern/ucprof)
+
+# target_link_libraries( freertos_config INTERFACE STM32H7xx_HAL SeggerSysView
+# ucprof_config ucprof CMSIS )
+add_library(freertos_config INTERFACE)
+target_include_directories(
+  freertos_config SYSTEM INTERFACE platform/${PLATFORM}/config
+) # FreeRTOSConfig.h
+# target_compile_definitions(freertos_config PUBLIC projCOVERAGE_TEST=0)
+
+if(SEGGER_SYSVIEW_ENABLED)
+  target_compile_options(
+    freertos_config
+    INTERFACE
+      -finstrument-functions
+      -finstrument-functions-exclude-file-list=Source/croutine,Source/event_groups,Source/list,Source/queue,Source/stream_buffer,Source/tasks,Source/CMSIS_RTOS_V2/cmsis_os2
+  )
+endif()
+
+set(FREERTOS_PORT GCC_ARM_CM7)
+set(FREERTOS_HEAP 4)
+add_subdirectory(extern/FreeRTOS-Kernel)
+
 add_subdirectory(extern/freertos-addons)
 add_subdirectory(extern/fonas)
 add_subdirectory(extern/ILI9341-STM32-HAL)
